@@ -13,6 +13,33 @@
     </section>
     <section hidden id="user">
       <h2>Hello <span class="username"></span>!</h2>
+      <h3>Post a Fragment</h3>
+      <label for="type">Choose a type:</label>
+      <select name="type" id="type">
+        <option value="text/plain">text/plain</option>
+      </select>
+      <br />
+      <br />
+      <label for="content">Enter Data:</label>
+      <input type="text" id="content" name="content" /><br /><br />
+      <button id="post">POST</button>
+      <br />
+      <br />
+      <br />
+      <h3>Get a Fragment</h3>
+      <label for="get_id">Enter ID For Get:</label>
+      <input type="text" id="get_id" name="get_id" /><br /><br />
+      <button id="getbyid">GET BY ID</button>
+      <button id="getall">GET ALL</button>
+      <br />
+      <br />
+      <code id="content-type" name="content-type"></code>
+      <br />
+      <br />
+      <table class="fragmentList"></table>
+      <br />
+      <br />
+      <br />
     </section>
   </body>
 </html>
