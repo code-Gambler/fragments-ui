@@ -1,0 +1,7 @@
+.parcel-cache/
+node_modules/
+tests/
+dist/
+.env
+.git/
+.gitignore
