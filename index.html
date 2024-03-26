@@ -17,6 +17,9 @@
       <label for="type">Choose a type:</label>
       <select name="type" id="type">
         <option value="text/plain">text/plain</option>
+        <option value="text/html">text/html</option>
+        <option value="text/markdown">text/markdown</option>
+        <option value="application/json">application/json</option>
       </select>
       <br />
       <br />
@@ -30,7 +33,10 @@
       <label for="get_id">Enter ID For Get:</label>
       <input type="text" id="get_id" name="get_id" /><br /><br />
       <button id="getbyid">GET BY ID</button>
-      <button id="getall">GET ALL</button>
+      <button id="getbyidtohtml">Convert to Html</button>
+      <button id="getMetaData">Get MetaData of ID</button>
+      <button id="getall">GET ALL(Expanded)</button>
+      <button id="getallnotexpanded">GET ALL</button>
       <br />
       <br />
       <code id="content-type" name="content-type"></code>

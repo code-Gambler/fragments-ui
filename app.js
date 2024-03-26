@@ -1,7 +1,7 @@
 // src/app.js
 
 import { Auth, getUser } from './auth';
-import { postFragments, getFragment, getUserFragments } from './api';
+import { postFragments, getFragment, getUserFragments, getFragmentToHtml, getUserFragmentsNotExpanded, getFragmentMetaData } from './api';
 
 async function init() {
     // Get our UI elements
@@ -13,9 +13,12 @@ async function init() {
     const contentType = document.querySelector("#type");
     const get_id = document.querySelector("#get_id");
     const getById = document.querySelector("#getbyid");
+    const getMetaData = document.querySelector("#getMetaData");
     const getButton = document.querySelector("#getall");
+    const getAllNotExpButton = document.querySelector("#getallnotexpanded");
     const getInfo = document.querySelector("#getInfo");
     const infoData = document.querySelector("#content-type");
+    const getIdInHtml = document.querySelector("#getbyidtohtml")
 
     // Wire up event handlers to deal with login and logout.
     loginBtn.onclick = () => {
@@ -102,8 +105,93 @@ async function init() {
         fragmentList.html = fragmentHtml;
     };
 
+    getAllNotExpButton.onclick = async () => {
+        // Get a fragment from the fragments API server
+        let fragmentHtml = "";
+        let fragmentList = document.querySelector(".fragmentList");
+        fragmentList.innerHTML = "";
+        getUserFragmentsNotExpanded(user).then((data) => {
+            console.log(data);
+            data = data.fragments;
+            if (data.length) {
+                // Create the titles for each column and add to the table
+                let header = document.createElement("tr");
+                let headerOptions = ["Id"];
+                for (let column of headerOptions) {
+                    let th = document.createElement("th");
+                    th.append(column);
+                    header.appendChild(th);
+                }
+                fragmentList.appendChild(header);
+
+                for (let fragment of data) {
+                    console.log("fragment", fragment);
+
+                    let tr = document.createElement("tr");
+                    let id = document.createElement("td");
+                    let created = document.createElement("td");
+                    let updated = document.createElement("td");
+                    let type = document.createElement("td");
+
+                    id.append(fragment);
+                    tr.append(id);
+
+                    fragmentList.appendChild(tr);
+                }
+            } else {
+                let td = document.createElement("td");
+                td.append("No fragments were found");
+
+                fragmentList.append(td);
+            }
+        });
+        fragmentList.html = fragmentHtml;
+    };
+
     getById.onclick = async () => {
         var res = await getFragment(user, get_id.value);
+        infoData.innerHTML = res;
+    };
+
+    getMetaData.onclick = async () => {
+        fragmentHtml = "";
+        let fragmentList = document.querySelector(".fragmentList");
+        fragmentList.innerHTML = "";
+        getFragmentMetaData(user, get_id.value).then((data) => {
+            console.log(data);
+            if (data) {
+                // Create the titles for each column and add to the table
+                let header = document.createElement("tr");
+                let headerOptions = ["Id", "Created", "Updated", "Type"];
+                for (let column of headerOptions) {
+                    let th = document.createElement("th");
+                    th.append(column);
+                    header.appendChild(th);
+                }
+                fragmentList.appendChild(header);
+                let tr = document.createElement("tr");
+                let id = document.createElement("td");
+                let created = document.createElement("td");
+                let updated = document.createElement("td");
+                let type = document.createElement("td");
+                id.append(data.id);
+                created.append(data.created);
+                updated.append(data.updated);
+                type.append(data.type);
+                tr.append(id, created, updated, type);
+                fragmentList.appendChild(tr);
+            } else {
+                let td = document.createElement("td");
+                td.append("No fragments were found");
+
+                fragmentList.append(td);
+            }
+                fragmentList.html = fragmentHtml;
+            });
+    };
+
+    getIdInHtml.onclick = async () => {
+        var res = await getFragmentToHtml(user, get_id.value);
         infoData.innerHTML = res;
     };
 
