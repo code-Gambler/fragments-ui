@@ -1,7 +1,7 @@
 // src/app.js
 
 import { Auth, getUser } from './auth';
-import { postFragments, getFragment, getUserFragments, getFragmentToHtml, getUserFragmentsNotExpanded, getFragmentMetaData } from './api';
+import { postFragments, getFragment, getUserFragments, getFragmentToHtml, getUserFragmentsNotExpanded, getFragmentMetaData, deleteFragment } from './api';
 
 async function init() {
     // Get our UI elements
@@ -13,6 +13,7 @@ async function init() {
     const contentType = document.querySelector("#type");
     const get_id = document.querySelector("#get_id");
     const getById = document.querySelector("#getbyid");
+    const deleteById = document.querySelector("#deletebyid");
     const getMetaData = document.querySelector("#getMetaData");
     const getButton = document.querySelector("#getall");
     const getAllNotExpButton = document.querySelector("#getallnotexpanded");
@@ -192,6 +193,11 @@ async function init() {
 
     getIdInHtml.onclick = async () => {
         var res = await getFragmentToHtml(user, get_id.value);
+        infoData.innerHTML = res;
+    };
+
+    deleteById.onclick = async () => {
+        var res = await deleteFragment(user, get_id.value);
         infoData.innerHTML = res;
     };
 

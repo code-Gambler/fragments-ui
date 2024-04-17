@@ -158,3 +158,22 @@ export async function getFragmentToHtml(user, id) {
     console.error("Unable to call GET /v1/fragment", { err });
   }
 }
+
+export async function deleteFragment(user, id) {
+  console.log("Deleting user fragments data...");
+  try {
+    const res = await fetch(`${apiUrl}/v1/fragments/${id}`, {
+      method: "DELETE",
+      headers: {
+        // Include the user's ID Token in the request so we're authorized
+        Authorization: `Bearer ${user.idToken}`,
+      },
+    });
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+    return res.status
+  } catch (err) {
+    console.error("Unable to call GET /v1/fragment", { err });
+  }
+}
